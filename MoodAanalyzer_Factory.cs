@@ -1,0 +1,89 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Reflection;
+using System.Threading.Tasks;
+using ModeAnalyzerAssignment;
+
+namespace MoodAnalyzer
+{
+    public class Mood_Aanalyzer_Factory
+    {
+        public static object CreateMoodAnalyze(string className, string constructorName)
+        {                     
+            
+            if (className.Equals(constructorName))
+            {
+                try
+                {
+                    Assembly assembly = Assembly.GetExecutingAssembly();
+                    Type moodAnalyzeType = assembly.GetType(className);
+                    return Activator.CreateInstance(moodAnalyzeType);
+                }
+                catch (ArgumentNullException)
+                {
+                    throw new MoodAnalyzerNullException(MoodAnalyzerNullException.Exception_Type.NO_SUCH_CLASS, "Class not found");
+                }
+            }
+            else
+            {
+                throw new MoodAnalyzerNullException(MoodAnalyzerNullException.Exception_Type.NO_SUCH_CONSTRUCTOR, "Constructor not found");
+            }
+        }
+    
+     public static object CreateMoodAnalyze_Parameter_Constructor(string className, string constructorName)  
+        {
+            Type type = typeof(MoodAnalyser);  
+            if (type.Name.Equals(className) || type.FullName.Equals(className))   
+            {
+                if (type.Name.Equals(constructorName))  
+                {
+                    ConstructorInfo constructor = type.GetConstructor(new[] { typeof(string) });
+                    object instance = constructor.Invoke(new object[] { "HAPPY" });
+                    return instance;
+                }
+                else throw new MoodAnalyzerNullException(MoodAnalyzerNullException.Exception_Type.NO_SUCH_CONSTRUCTOR, "Constructor not found");
+            }
+            else throw new MoodAnalyzerNullException(MoodAnalyzerNullException.Exception_Type.NO_SUCH_CLASS, "Class not found");
+        }
+    
+        
+         public static string invokeAnalyzeMood(string message, string methodName)
+        {
+            try
+            {
+                Type type = Type.GetType("ModeAnalyzerAssignment.MoodAnalyser"); 
+                object moodAnalyzerObject = Mood_Aanalyzer_Factory.CreateMoodAnalyze_Parameter_Constructor("ModeAnalyzerAssignment.MoodAnalyser", "MoodAnalyser");
+                MethodInfo analyzeMoodInfo = type.GetMethod(methodName);  
+                object mood = analyzeMoodInfo.Invoke(moodAnalyzerObject, NULL);
+                return mood.ToString();
+            }
+            catch (NullReferenceException)
+            {
+                throw new MoodAnalyzerNullException(MoodAnalyzerNullException.Exception_Type.NO_SUCH_METHOD, "Method not found");
+            }
+        }
+        
+         public static string SetField(string message, string fieldName)
+        {
+            try
+            {
+                MoodAnalyser moodAnalyser = new MoodAnalyser();
+                Type type = typeof(MoodAnalyser);
+                FieldInfo field = type.GetField(fieldName, BindingFlags.Public | BindingFlags.Instance);
+                if (message == null)
+                {
+                    throw new MoodAnalyzerNullException(MoodAnalyzerNullException.Exception_Type.NO_SUCH_FIELD, "Mood can not be null.");
+                }
+                field.SetValue(moodAnalyser, message);
+                return moodAnalyser.analyseMood1();
+            }
+            catch (NullReferenceException)
+            {
+                throw new MoodAnalyzerNullException(MoodAnalyzerNullException.Exception_Type.NO_SUCH_FIELD, "Field not Found");
+            }
+        }
+        
+    }
+}
