@@ -27,11 +27,7 @@ namespace MoodAnalyzer
     public class MoodAnalyser1
     {
 
-        public string msg;
-        public MoodAnalyser1()
-        {
-            this.msg = "SAD";
-        }
+        public string msg;       
         public MoodAnalyser1(string msg1)
         {
             this.msg = msg1;
@@ -40,8 +36,18 @@ namespace MoodAnalyzer
 
         public string analyseMood1()
         {
-            MoodAnalyser1 obja = new MoodAnalyser1();
-            obja.msg = "HAPPY";
+            MoodAnalyser1 obja = new MoodAnalyser1(msg);
+            if(obja.msg==null)
+            {
+
+
+                throw new MoodAnalyzerNullException("Invalid Mood");
+            }
+            else
+            {
+                Console.WriteLine("Message is not NULL" + obja.msg);
+            }
+
             return obja.msg;
 
         }
