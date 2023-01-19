@@ -1,4 +1,4 @@
-using ModeAnalyzerAssignment;
+using ModeAnalyzer;
 using System.Diagnostics.SymbolStore;
 using System.Reflection;
 
