@@ -35,10 +35,10 @@ namespace MoodAnalyzer
     
      public static object CreateMoodAnalyze_Parameter_Constructor(string className, string constructorName)  
         {
-            Type type = typeof(MoodAnalyser);   //namspace.classname
-            if (type.Name.Equals(className) || type.FullName.Equals(className))   //(MoodAnalyser==MoodAnalyser)
+            Type type = typeof(MoodAnalyser);  
+            if (type.Name.Equals(className) || type.FullName.Equals(className))  
             {
-                if (type.Name.Equals(constructorName))  //(MoodAnalyser==MoodAnar)
+                if (type.Name.Equals(constructorName))  
                 {
                     ConstructorInfo constructor = type.GetConstructor(new[] { typeof(string) });
                     object instance = constructor.Invoke(new object[] { "HAPPY" });
