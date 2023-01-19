@@ -8,9 +8,16 @@ namespace MoodAnalyzer
 {
     public class MoodAnalyzerNullException : Exception
     {
-        public MoodAnalyzerNullException(string msg) : base(msg)
+        Exception_Type type;
+        public enum Exception_Type
         {
+            EMPTY_MOOD,
+            NULL_MOOD
+        }
 
+        public MoodAnalyzerNullException(Exception_Type type, string msg) : base(msg)
+        {
+            this.type = type;
         }
     }
 }
