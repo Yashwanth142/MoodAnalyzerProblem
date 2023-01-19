@@ -36,19 +36,21 @@ namespace MoodAnalyzer
 
         public string analyseMood1()
         {
-            MoodAnalyser1 obja = new MoodAnalyser1(msg);
-            if(obja.msg==null)
+            MoodAnalyser1 moodAnalyser = new MoodAnalyser1(msg);
+            msg = "";
+            try
             {
-
-
-                throw new MoodAnalyzerNullException("Invalid Mood");
+                if (msg.Equals(string.Empty))
+                    throw new MoodAnalyzerNullException(MoodAnalyzerNullException.Exception_Type.EMPTY_MOOD, "Mood can not be Empty.");
+                else if (msg.ToUpper().Contains("SAD"))
+                    return "SAD";
+                else return "HAPPY";
             }
-            else
+            catch (NullReferenceException)
             {
-                Console.WriteLine("Message is not NULL" + obja.msg);
+                
+                throw new MoodAnalyzerNullException(MoodAnalyzerNullException.Exception_Type.NULL_MOOD, "Mood can not be Null.");
             }
-
-            return obja.msg;
 
         }
     }
